@@ -33,7 +33,7 @@ public class SocialMediaController {
         app.post("/register", this::createAccountHandler);
         app.post("/login", this::loginAccountHandler);
         app.post("/messages", this::newMessageHandler);
-        app.get("/messages", this::getAllMessagesHandler) ;
+        app.get("/messages", this::getAllMessagesHandler);
         app.get("/messages/message_id", this::getMessageByMessageIdHandler);
         app.delete("/messages/message_id", this::deleteByMessageIdHandler);
         app.patch("/messages/message_id", this::updateMessageHandler);
@@ -63,7 +63,7 @@ public class SocialMediaController {
 
     private void loginAccountHandler(Context context) {
         Account account = context.bodyAsClass(Account.class);
-        Account accountLogin = accountService.LoginToAccount(account.username, account.password);
+        Account accountLogin = accountService.LoginToAccount(account.getUsername(), account.getPassword());
         if (accountLogin == null) {
             context.status(401);
         }

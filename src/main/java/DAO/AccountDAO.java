@@ -14,14 +14,13 @@ public class AccountDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlStatment, Statement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setString(1, account.getUsername());
-            preparedStatement.setString(2,account.getPassword());
+            preparedStatement.setString(2, account.getPassword());
 
             preparedStatement.executeUpdate();
 
             ResultSet result = preparedStatement.getGeneratedKeys();
             if (result.next()) {
-                int accountId = (int) result.getLong(1);
-                Account accountCreation = new Account(accountId, account.getUsername(), account.getPassword());
+                Account accountCreation = new Account(result.getInt("account_id"), account.getUsername(), account.getPassword());
                 return accountCreation;
             }
         }
@@ -36,7 +35,7 @@ public class AccountDAO {
         Connection connection = ConnectionUtil.getConnection();
 
         try {
-            String sqlStatement = "SELECT username, password FROM Account WHERE username = ? AND password = ?";
+            String sqlStatement = "SELECT account_Id, username, password FROM Account WHERE username = ? AND password = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlStatement);
 
             preparedStatement.setString(1, username);
@@ -45,8 +44,8 @@ public class AccountDAO {
             ResultSet result = preparedStatement.executeQuery();
 
             if (result.next()) {
-                int accountId = (int) result.getLong(1);
-                Account account = new Account(accountId, result.getString(username), result.getString(password));
+                
+                Account account = new Account(result.getInt("account_Id"), result.getString("username"), result.getString("password"));
                 return account;
             }
 

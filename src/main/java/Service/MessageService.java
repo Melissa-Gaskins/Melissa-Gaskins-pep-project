@@ -17,7 +17,12 @@ public class MessageService {
     }
 
     public Message addNewMessage(Message msg) {
-        return messageDAO.newMessage(msg);
+        if (msg.getMessage_text().isEmpty()) {
+            return null;
+        }
+        else {
+            return messageDAO.newMessage(msg);
+        }
     }
 
     public List<Message> returnAllMessages() {

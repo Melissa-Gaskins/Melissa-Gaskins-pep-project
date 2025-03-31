@@ -15,7 +15,17 @@ public class AccountService {
     }
 
     public Account addAccount(Account account) {
-        return accountDAO.createAccount(account);
+        if (account.getUsername().isEmpty()) {
+            return null;
+        }
+
+        if (account.getPassword().length() < 4) {
+            return null;
+        }
+
+        else {
+            return accountDAO.createAccount(account);
+        }
     }
 
     public Account LoginToAccount(String username, String password) {
