@@ -113,7 +113,7 @@ public class MessageDAO {
     }
 
 
-    public void updateMessageByMessageId(int message_id, String message_text) {
+    public Message updateMessageByMessageId(int message_id, String message_text) {
 
         Connection connection = ConnectionUtil.getConnection();
 
@@ -122,16 +122,21 @@ public class MessageDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlStatement);
 
             preparedStatement.setInt(1, message_id);
-            preparedStatement.setString(2, sqlStatement);
+            preparedStatement.setString(2, message_text);
 
             preparedStatement.executeUpdate();
+            ResultSet result = preparedStatement.executeQuery();
 
+            if (result.next()) {
+                Message message = new Message(result.getInt("posted_by"), result.getString("message_text"), result.getLong("time_posted_epoch"));
+                return message;
+            }
         }
         catch (SQLException exception) {
             System.out.println(exception.getMessage());
 
         }
-
+        return null;
     }
 
     public List<Message> getAllMessagesByUserId(int posted_by) {
