@@ -25,7 +25,7 @@ public class AccountDAO {
             }
         }
         catch (SQLException exception) {
-            System.out.println(exception.getMessage());
+            exception.printStackTrace();
             
         }
         return null;
@@ -52,7 +52,7 @@ public class AccountDAO {
 
         }
         catch (SQLException exception) {
-            System.out.println(exception.getMessage());
+            exception.printStackTrace();
         }
         return null;
     }

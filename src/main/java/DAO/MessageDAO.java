@@ -29,7 +29,7 @@ public class MessageDAO {
             }
         }
         catch(SQLException exception) {
-            System.out.println(exception.getMessage());
+            exception.printStackTrace();
         }
         return null;
     }
@@ -82,7 +82,7 @@ public class MessageDAO {
         }
         catch (SQLException exception) {
             
-            System.out.println(exception.getMessage());
+            exception.printStackTrace();
         }
         return null;
     }
@@ -113,7 +113,7 @@ public class MessageDAO {
 
         }
         catch (SQLException exception) {
-            System.out.println(exception.getMessage());
+            exception.printStackTrace();
 
         }
         return null;
@@ -153,7 +153,7 @@ public class MessageDAO {
         
         }
         catch (SQLException exception) {
-            System.out.println(exception.getMessage());
+            exception.printStackTrace();
 
         }
         return null;
@@ -179,7 +179,7 @@ public class MessageDAO {
             return messagesByUser; 
         }
         catch (SQLException exception) {
-            System.out.println(exception.getMessage());
+            exception.printStackTrace();
         }
         return null;
     }
