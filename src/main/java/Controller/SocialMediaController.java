@@ -7,6 +7,10 @@ import Service.MessageService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import java.util.List;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
 
 
 /**
@@ -99,8 +103,13 @@ public class SocialMediaController {
         String messageId = context.pathParam("message_id");
         int convertedId = Integer.parseInt(messageId);
         Message message = messageService.returnMessageByMessageId(convertedId);
-        context.status(200);
-        context.json(message);
+        if (message == null) {
+            context.status(200);
+        }
+        else {
+            context.status(200);
+            context.json(message);
+        }
     }
 
     private void deleteByMessageIdHandler (Context context) {
@@ -117,26 +126,32 @@ public class SocialMediaController {
         
     }
 
-    private void updateMessageHandler (Context context) {
-        String messageId = context.pathParam("message_id");
-        int convertedId = Integer.parseInt(messageId);
-        String text = context.body();
-        Message updatedMessage = messageService.updateMessage(convertedId, text);
+    private void updateMessageHandler (Context context) throws JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(context.body(), Message.class);
+        int message_id = Integer.parseInt(context.pathParam("message_id"));
+        Message updatedMessage = messageService.updateMessage(message_id, message.getMessage_text());
+        System.out.println(updatedMessage);
         if (updatedMessage == null) {
             context.status(400);
         }
         else {
-            context.status(200);
-            context.json(updatedMessage);
+            context.json(mapper.writeValueAsString(updatedMessage));
         }
+        
     }
 
     private void getMessagesByUserIdHandler (Context context) {
-        String messageId = context.pathParam("message_id");
-        int convertedId = Integer.parseInt(messageId);
+        String userId = context.pathParam("account_id");
+        int convertedId = Integer.parseInt(userId);
         List<Message> messages = messageService.getMessagesByUserId(convertedId);
-        context.status(200);
-        context.json(messages);
+        if (messages == null) {
+            context.status(200);
+        }
+        else {
+            context.status(200);
+            context.json(messages);
+        }
     }
 
 }
