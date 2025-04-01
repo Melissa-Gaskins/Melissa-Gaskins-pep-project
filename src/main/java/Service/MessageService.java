@@ -38,7 +38,12 @@ public class MessageService {
     }
 
     public Message updateMessage(int message_id, String message_text) {
-        return messageDAO.updateMessageByMessageId(message_id, message_text);
+        if (message_text.isEmpty()) {
+            return null;
+        }
+        else {
+            return messageDAO.updateMessageByMessageId(message_id, message_text);
+        }
     }
 
     public List<Message> getMessagesByUserId(int posted_by) {

@@ -75,7 +75,7 @@ public class MessageDAO {
             ResultSet result = preparedStatement.executeQuery();
 
             while (result.next()) {
-                Message message = new Message(result.getInt("posted_by"), result.getString("message_text"), result.getLong("time_posted_epoch"));
+                Message message = new Message(result.getInt("message_id"), result.getInt("posted_by"), result.getString("message_text"), result.getLong("time_posted_epoch"));
                 return message;
             }
         }
@@ -122,6 +122,7 @@ public class MessageDAO {
             String sqlStatement = "UPDATE Message SET message_text = ? WHERE message_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlStatement);
 
+
             preparedStatement.setString(1, message_text);
             preparedStatement.setInt(2, message_id);
             
@@ -131,7 +132,7 @@ public class MessageDAO {
             String sqlQuery = "SELECT * FROM Message WHERE message_id = ?";
             PreparedStatement preparedStatement2 = connection.prepareStatement(sqlQuery);
 
-            preparedStatement.setInt(1, message_id);
+            preparedStatement2.setInt(1, message_id);
             ResultSet result = preparedStatement2.executeQuery();
 
             if (result.next()) {
